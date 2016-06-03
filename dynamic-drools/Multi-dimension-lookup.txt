@@ -1,0 +1,47 @@
+Implement a MultiCube object to enable easy 
+
+Setup:
+
+MultiCube.setDimensions = {
+    dimension_name = [ value, value, value, value, value, value, value, value];
+    dimension_name = [ value, value, value, value, value, value, value, value];
+    dimension_name = [ value, value, value, value, value, value, value, value];
+    dimension_name = [ value, value, value, value, value, value, value, value];
+}
+MultiCube.setOutput = {
+    output_name =    [ value, value, value, value, value, value, value, value];
+    output_name =    [ value, value, value, value, value, value, value, value];
+    output_name =    [ value, value, value, value, value, value, value, value];
+    output_name =    [ value, value, value, value, value, value, value, value];
+    output_name =    [ value, value, value, value, value, value, value, value];
+}
+
+Validation: 
+
+    1.  All the arrays of values must all be the same length.
+    2.  Across the set of dimension arrays, the combinations of the values at
+        any given position must be unique.
+
+Usage:
+
+    MultiCube.newInstance()
+    .setDimensions( ... );
+    .setOutput( ... );
+    .query( dimension_name = value, 
+            dimension_name = value, 
+            dimension_name = value).get(output_name, default_value);
+
+Internal implementation:
+
+    1.  Each provided dimension_name=value is converted to a set of array 
+        positions where the named dimension has the corresponding value.
+
+    2.  Once each dimension_value has been converted, the intersection of these
+        sets of array positions will provide the array position where ALL the
+        dimension_name=value requirements are met.  
+
+    3.  Because of validation rule #2 there will either be 1 or 0 position where 
+        ALL the requirements are met.  If there is 1 position then return the 
+        value from the output_name array at that position.  If there are 0 
+        positions, then return the default value.
+

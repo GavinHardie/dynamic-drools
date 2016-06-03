@@ -1,0 +1,46 @@
+package com.busii.dynamicdrools
+dialect "mvel"
+
+global com.busii.dynamicdrools.Calc calc;
+ 
+declare Person
+    name: String
+    surname: String
+    a: Integer
+    b: Integer
+    c: Integer
+    indicator: Boolean
+    x: Integer
+    y: Integer
+    z: Integer
+end
+
+function Object map(Object value, String data) {
+    return new com.busii.dynamicdrools.Calc().valueLookup(value, data);
+}
+
+function Object range(Object value, String data) {
+    return new com.busii.dynamicdrools.Calc().rangeLookup(value, data);
+}
+
+
+rule "Calculate X for indicator"
+    when p : Person( indicator == true )
+    then p.x = p.a + p.b + p.c;
+    end
+
+rule "Calculate X for non indicator"
+    when p : Person (indicator == false )
+    then p.x = p.a + p.b;
+    end
+
+rule "Calculate Y"
+    when p : Person() 
+    then p.y = range( p.x , "1(10)2(100)3(150)4" );     // Custom range function
+    end
+
+rule "Calculate Z"
+    when p : Person()
+    then p.z = p.y * 2;
+    end
+
